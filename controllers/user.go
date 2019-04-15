@@ -174,8 +174,8 @@ func (self *UserController) ShowUserCenterInfo() {
 	var addr models.Address
 
 	// 高级查询
-	o.QueryTable(&models.Address{}).RelatedSel("User").Filter("User__Name",userName).Filter("Isdefault",true).One(&addr)
-
+	err := o.QueryTable(&addr).RelatedSel("User").Filter("User__Name",userName).Filter("Isdefault",true).One(&addr)
+	beego.Info(err)
 	if addr.Id == 0	 {
 		self.Data["addr"] = ""
 	} else {
@@ -184,6 +184,75 @@ func (self *UserController) ShowUserCenterInfo() {
 
 	self.Layout = "userCenterLayout.html"
 	self.TplName = "user_center_info.html"
+}
+/* 展示用户中心订单页*/
+func (self *UserController) ShowUserCenterOrder() {
+	GetUser(&self.Controller)
+	self.Layout = "userCenterLayout.html"
+	self.TplName = "user_center_order.html"
+}
+
+/*展示用户中心地址页*/
+func (self *UserController) ShowUserCenterSite() {
+	userName := GetUser(&self.Controller)
+
+
+	//self.Data["userName"] = userName
+
+	o := orm.NewOrm()
+	var addr models.Address
+	o.QueryTable(&addr).RelatedSel("User").Filter("User__Name",userName).Filter("Isdefault",true).One(&addr)
+	self.Data["addr"] = addr
+
+	self.Layout = "userCenterLayout.html"
+	self.TplName = "user_center_site.html"
+}
+
+/*处理提交的地址*/
+func (self *UserController) HandleUserCenterSite() {
+	// 获取数据
+	receiver := self.GetString("receiver")
+	addr := self.GetString("addr")
+	zipCode := self.GetString("zipCode")
+	phone := self.GetString("phone")
+
+	// 校验数据
+	if receiver == "" || addr == "" || zipCode == "" || phone == "" {
+		beego.Info("添加数据不完整")
+		self.Redirect("/user/userCenterSite",302)
+		return
+	}
+
+	// 处理数据
+	o := orm.NewOrm()
+	var userAddr models.Address
+	userAddr.Isdefault = true
+	err := o.Read(&userAddr, "Isdefault")
+
+	// 添加默认地址之前，需要把原来的默认地址更新成非默认地址
+	if err == nil {
+		userAddr.Isdefault = false
+		o.Update(&userAddr)
+	}
+
+	// 关联
+	userName := self.GetSession("userName")
+	var user models.User
+	user.Name = userName.(string)
+
+	o.Read(&user,"Name") // 通过Id查找时可以省略，其他时候必须指定字段
+	var newUserAddr models.Address
+	newUserAddr.Receiver = receiver
+	newUserAddr.Zipcode = zipCode
+	newUserAddr.Addr = addr
+	newUserAddr.Phone = phone
+	newUserAddr.Isdefault = true
+	newUserAddr.User = &user
+	_, err = o.Insert(&newUserAddr)
+	beego.Info(err)
+
+	// 返回视图
+	self.Redirect("/user/userCenterSite", 302)
 }
 
 /*退出登录*/

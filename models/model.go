@@ -24,7 +24,7 @@ type Address struct { // 地址表
 	Addr string `orm:"size(50)"` // 收件地址
 	Zipcode string `orm:"size(20)"` // 邮编
 	Phone string `orm:"size(20)"` // 联系方式
-	IsDefault bool `orm:"default(false)"` // 是否为默认地址
+	Isdefault bool `orm:"default(false)"` // 是否为默认地址
 	User *User `orm:"rel(fk)"` // 外键 用户ID
 	OrderInfo []*OrderInfo `orm:"reverse(many)"` // 订单信息
 }
