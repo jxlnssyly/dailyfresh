@@ -158,9 +158,41 @@ func (self *UserController) HandleLogin() {
 	} else  {
 		self.Ctx.SetCookie("userName",userName,-1)
 	}
-
-	self.Ctx.WriteString("登录成功")
+	self.SetSession("userName",userName)
+	self.Redirect("/",302)
 }
+
+/*用户中心*/
+
+func (self *UserController) ShowUserCenterInfo() {
+	userName := GetUser(&self.Controller)
+
+
+	// 查询地址表的内容
+	o := orm.NewOrm()
+
+	var addr models.Address
+
+	// 高级查询
+	o.QueryTable(&models.Address{}).RelatedSel("User").Filter("User__Name",userName).Filter("Isdefault",true).One(&addr)
+
+	if addr.Id == 0	 {
+		self.Data["addr"] = ""
+	} else {
+		self.Data["addr"] = addr
+	}
+
+	self.Layout = "userCenterLayout.html"
+	self.TplName = "user_center_info.html"
+}
+
+/*退出登录*/
+func (self *UserController) Logout() {
+	self.DelSession("userName")
+
+	self.Redirect("/login",302)
+}
+
 
 
 
