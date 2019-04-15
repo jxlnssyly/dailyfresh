@@ -7,6 +7,7 @@ import (
 	"dailyfresh/models"
 	"github.com/astaxie/beego/utils"
 	"strconv"
+	"encoding/base64"
 )
 
 type UserController struct {
@@ -104,7 +105,61 @@ func (self *UserController) ActiveUser() {
 
 /*展示登录页面*/
 func (self *UserController)ShowLogin()  {
+	userName := self.Ctx.GetCookie("userName")
+	temp,_ := base64.StdEncoding.DecodeString(userName)
+
+	if string(temp) == "" {
+		self.Data["userName"] = ""
+		self.Data["checked"] = ""
+	} else  {
+		self.Data["userName"] = string(temp)
+		self.Data["checked"] = "checked"
+	}
+
 	self.TplName = "login.html"
+}
+
+/*处理登录数据*/
+func (self *UserController) HandleLogin() {
+	// 1、获取数据
+	userName := self.GetString("username")
+	pwd := self.GetString("pwd")
+	// 2、校验数据
+	if userName == "" || pwd == "" {
+		 self.Data["errmsg"] = "登录数据不完整，请重新输入"
+		self.TplName = "login.html"
+		 return
+	}
+
+
+	// 3、处理数据
+	o := orm.NewOrm()
+	var user models.User
+	user.Name = userName
+	err := o.Read(&user, "Name")
+	if err != nil || user.PassWord != pwd {
+		self.Data["errmsg"] = "用户名或者密码错误"
+		self.TplName = "login.html"
+		return
+	}
+
+	if user.Actice != true {
+
+		self.Data["errmsg"] = "用户名未激活，请前往邮箱激活"
+		self.TplName = "login.html"
+		return
+	}
+
+	// 4、返回页面
+	remember := self.GetString("remember")
+	if remember == "on" {
+		temp := base64.StdEncoding.EncodeToString([]byte(userName))
+		self.Ctx.SetCookie("userName",temp,24 * 3600 * 30)
+	} else  {
+		self.Ctx.SetCookie("userName",userName,-1)
+	}
+
+	self.Ctx.WriteString("登录成功")
 }
 
 

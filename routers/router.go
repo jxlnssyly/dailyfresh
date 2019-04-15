@@ -14,5 +14,5 @@ func init() {
     beego.Router("/active",&controllers.UserController{},"get:ActiveUser")
 
     // 登录页
-    beego.Router("/login",&controllers.UserController{},"get:ShowLogin")
+    beego.Router("/login",&controllers.UserController{},"get:ShowLogin;post:HandleLogin")
 }
