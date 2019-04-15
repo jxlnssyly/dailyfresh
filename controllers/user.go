@@ -73,5 +73,39 @@ func (self *UserController)HandleRegister()  {
 	self.Ctx.WriteString("注册成功，请去相应邮箱激活用户!")
 }
 
+/*激活处理*/
+func (self *UserController) ActiveUser() {
+	// 1、获取数据
+	id, err := self.GetInt("id")
+
+	// 2、校验数据
+	if err != nil {
+		self.Data["errmsg"] = "要激活的用户不存在"
+		self.TplName = "register.html"
+		return
+	}
+
+	// 3、处理数据
+	o := orm.NewOrm()
+	var user models.User
+	user.Id = id
+	err = o.Read(&user)
+	if err != nil {
+		self.Data["errmsg"] = "要激活的用户不存在"
+		self.TplName = "register.html"
+		return
+	}
+	user.Actice = true
+	o.Update(&user)
+
+	// 4、返回视图
+	self.Redirect("/login",302)
+}
+
+/*展示登录页面*/
+func (self *UserController)ShowLogin()  {
+	self.TplName = "login.html"
+}
+
 
 
