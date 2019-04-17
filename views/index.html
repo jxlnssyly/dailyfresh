@@ -74,7 +74,7 @@
 			<ul class="slide_pics">
 
 				{{range .indexGoodsBanner}}
-                    <li><img src="http://10.200.12.85:8888/{{.Image}}" alt="幻灯片"></li>
+                    <li><img src="{{$.nginxHost}}{{.Image}}" alt="幻灯片"></li>
 
 				{{end}}
 
@@ -85,7 +85,7 @@
 		</div>
 		<div class="adv fl">
 			{{range .promotionGoods}}
-                <a href="{{.Url}}"><img src="http://10.200.12.85:8888/{{.Image}}"></a>
+                <a href="{{.Url}}"><img src="{{$.nginxHost}}{{.Image}}"></a>
 
 			{{end}}
 		</div>

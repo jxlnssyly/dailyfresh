@@ -25,6 +25,10 @@ func (self *GoodsController) ShowIndex() {
 	//GetUser(&self.Controller)
 	o := orm.NewOrm()
 
+	// 获取nginx配置
+	nginxHost := beego.AppConfig.String("nginxHost")
+	self.Data["nginxHost"] = nginxHost
+
 	// 获取类型数据
 	var goodsType []models.GoodsType
 	o.QueryTable(&models.GoodsType{}).All(&goodsType)
@@ -39,7 +43,6 @@ func (self *GoodsController) ShowIndex() {
 	var promotionGoods []models.IndexPromotionBanner
 	o.QueryTable(&models.IndexPromotionBanner{}).OrderBy("Index").All(&promotionGoods)
 	self.Data["promotionGoods"] = promotionGoods
-
 
 	// 获取首页商品数据
 

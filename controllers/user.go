@@ -96,7 +96,7 @@ func (self *UserController) ActiveUser() {
 		self.TplName = "register.html"
 		return
 	}
-	user.Actice = true
+	user.Active = true
 	o.Update(&user)
 
 	// 4、返回视图
@@ -143,7 +143,7 @@ func (self *UserController) HandleLogin() {
 		return
 	}
 
-	if user.Actice != true {
+	if user.Active != true {
 
 		self.Data["errmsg"] = "用户名未激活，请前往邮箱激活"
 		self.TplName = "login.html"
