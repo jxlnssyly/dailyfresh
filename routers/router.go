@@ -29,6 +29,9 @@ func init() {
 	beego.Router("/user/userCenterOrder",&controllers.UserController{},"get:ShowUserCenterOrder")
 	// 用户中心地址页
 	beego.Router("/user/userCenterSite",&controllers.UserController{},"get:ShowUserCenterSite;post:HandleUserCenterSite")
+
+	// 商品详情
+	beego.Router("/goodsDetail",&controllers.GoodsController{},"get:ShowGoodsDetail")
 }
 
 var filterFunc = func(ctx *context.Context) {
