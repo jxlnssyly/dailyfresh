@@ -4,6 +4,9 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"dailyfresh/models"
+	"github.com/gomodule/redigo/redis"
+	"strconv"
+	"math"
 )
 
 type GoodsController struct {
@@ -27,16 +30,15 @@ func ShowLayout(self *beego.Controller) {
 	self.Layout = "goodsLayout.html"
 }
 
-func GetUser(self *beego.Controller) string  {
+func GetUser(self *beego.Controller) string {
 	userName := self.GetSession("userName")
 	if userName == nil {
 		self.Data["userName"] = ""
-	} else  {
-		self.Data["userName"]= userName.(string)
+	} else {
+		self.Data["userName"] = userName.(string)
 		return userName.(string)
 
 	}
-
 
 	return ""
 }
@@ -66,7 +68,7 @@ func (self *GoodsController) ShowIndex() {
 	self.Data["promotionGoods"] = promotionGoods
 
 	// 获取首页商品数据
-	goods := make([]map[string]interface{},len(goodsType))
+	goods := make([]map[string]interface{}, len(goodsType))
 
 	// 向切片interface中插入类型数据
 	for index, value := range goodsType {
@@ -76,11 +78,11 @@ func (self *GoodsController) ShowIndex() {
 	}
 	// 获取对应类型的首页展示商品
 
-	for _,value := range goods {
+	for _, value := range goods {
 		var textGoods []models.IndexTypeGoodsBanner
 		var imageGoods []models.IndexTypeGoodsBanner
-		o.QueryTable(&models.IndexTypeGoodsBanner{}).RelatedSel("GoodsType","GoodsSKU").OrderBy("Index").Filter("GoodsType",value["type"]).Filter("DisplayType",0).All(&textGoods)
-		o.QueryTable(&models.IndexTypeGoodsBanner{}).RelatedSel("GoodsType","GoodsSKU").OrderBy("Index").Filter("GoodsType",value["type"]).Filter("DisplayType",1).All(&imageGoods)
+		o.QueryTable(&models.IndexTypeGoodsBanner{}).RelatedSel("GoodsType", "GoodsSKU").OrderBy("Index").Filter("GoodsType", value["type"]).Filter("DisplayType", 0).All(&textGoods)
+		o.QueryTable(&models.IndexTypeGoodsBanner{}).RelatedSel("GoodsType", "GoodsSKU").OrderBy("Index").Filter("GoodsType", value["type"]).Filter("DisplayType", 1).All(&imageGoods)
 		value["textGoods"] = textGoods
 		value["imageGoods"] = imageGoods
 	}
@@ -94,25 +96,127 @@ func (self *GoodsController) ShowGoodsDetail() {
 	// 获取数据
 	id, err := self.GetInt("id")
 	if err != nil {
-		beego.Error("id获取错误",err)
-		self.Redirect("/",302)
+		beego.Error("id获取错误", err)
+		self.Redirect("/", 302)
 		return
 	}
 
-	GetUser(&self.Controller)
 	// 处理数据
 	o := orm.NewOrm()
 	var goodsSKU models.GoodsSKU
 	goodsSKU.Id = id
-	o.QueryTable(&goodsSKU).RelatedSel("GoodsType","Goods").Filter("Id",id).One(&goodsSKU)
+	o.QueryTable(&goodsSKU).RelatedSel("GoodsType", "Goods").Filter("Id", id).One(&goodsSKU)
 
 	// 获取同类型时间靠前的两条商品数据
 	var newGoods []models.GoodsSKU
-	o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType",goodsSKU.GoodsType).OrderBy("Time").Limit(2,0).All(&newGoods)
+	o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType", goodsSKU.GoodsType).OrderBy("Time").Limit(2, 0).All(&newGoods)
 
 	self.Data["goodsSku"] = goodsSKU
 	self.Data["goodsNew"] = newGoods
+
+	// 添加历史浏览记录
+	// 判断用户是否登录
+	userName := self.GetSession("userName")
+	beego.Info(userName)
+	if userName != nil {
+		// 查询
+		var user models.User
+		user.Name = userName.(string)
+		o.Read(&user, "Name")
+		redisServer := beego.AppConfig.String("redisServer")
+		// Redis存储
+		conn, err := redis.Dial("tcp", redisServer)
+		defer conn.Close()
+		if err != nil {
+			beego.Info("redis连接错误", err)
+		}
+		// 把以前相同的浏览历史记录删除
+		_, err = conn.Do("lrem", "history_"+strconv.Itoa(user.Id), 0, id)
+
+		// 添加新的浏览历史记录到商品中
+		_, err = conn.Do("lpush", "history_"+strconv.Itoa(user.Id), id)
+	}
+
+	// 添加历史浏览记录
+
 	ShowLayout(&self.Controller)
 	self.TplName = "detail.html"
+}
 
+func PageTool(pageCount int, pageIndex int) []int {
+	var pages []int
+	if pageCount <= 5 {
+		pages = make([]int, pageCount)
+
+		for i,_ := range pages{
+			pages[i] = i + 1
+		}
+	} else if pageIndex <= 3 {
+		pages = []int{1,2,3,4,5}
+	} else if pageIndex > pageCount - 3 {
+		pages = []int{pageCount - 4, pageCount - 3, pageCount - 2, pageCount - 1, pageCount}
+	} else {
+		pages = []int{pageIndex - 2, pageIndex - 1, pageIndex, pageIndex + 1, pageIndex + 2}
+	}
+	return pages
+}
+
+func (self *GoodsController) ShowGoodsList() {
+	// 获取数据
+	id, err := self.GetInt("typeId")
+	if err != nil {
+		beego.Info("请求路径错误")
+		self.Redirect("/", 302)
+		return
+	}
+
+	// 处理数据
+	ShowLayout(&self.Controller)
+
+	// 获取新品
+	o := orm.NewOrm()
+	var goodsNew []models.GoodsSKU
+	o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).OrderBy("Time").Limit(2,0).All(&goodsNew)
+	self.Data["goodsNew"] = goodsNew
+
+
+
+	// 分页实现
+	// 获取PageCount
+	pageSize := 1
+	count, _ := o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).Count()
+
+	pageCount := math.Ceil(float64(count) / float64(pageSize))
+
+	pageIndex, err := self.GetInt("pageIndex")
+	if err != nil {
+		pageIndex = 1
+	}
+
+	pages := PageTool(int(pageCount), pageIndex)
+
+	//获取商品
+	var goods []models.GoodsSKU
+	start := (pageIndex - 1) * pageSize
+	o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).Limit(pageSize,start).All(&goods)
+	self.Data["goods"]= goods
+	self.Data["typeId"] = id
+	self.Data["pages"] = pages
+	self.Data["pageIndex"] = pageIndex
+
+	// 获取上一页
+	prePage := pageIndex - 1
+	if pageIndex <= 1 {
+		prePage = 1
+	}
+	self.Data["prePage"] = prePage
+
+	// 获取下一页
+	nextPage := pageIndex + 1
+	if nextPage > int(pageCount) {
+		nextPage = int(pageCount)
+	}
+	self.Data["nextPage"] = nextPage
+
+	self.TplName = "list.html"
 }

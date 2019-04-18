@@ -8,6 +8,7 @@ import (
 	"github.com/astaxie/beego/utils"
 	"strconv"
 	"encoding/base64"
+	"github.com/gomodule/redigo/redis"
 )
 
 type UserController struct {
@@ -182,9 +183,34 @@ func (self *UserController) ShowUserCenterInfo() {
 		self.Data["addr"] = addr
 	}
 
+	// 获取历史浏览记录
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	defer conn.Close()
+	if err != nil {
+		beego.Info("连接Redis出错")
+		return
+	}
+
+	var user models.User
+	user.Name = userName
+	o.Read(&user,"Name")
+	rep, err := conn.Do("lrange","history_"+strconv.Itoa(user.Id),0,4)
+	// 回复助手函数
+	goodsIds, _ := redis.Ints(rep, err)
+	var goodsSKUs []models.GoodsSKU
+	for _, value := range goodsIds {
+		var goods models.GoodsSKU
+		goods.Id = value
+		o.Read(&goods)
+		goodsSKUs = append(goodsSKUs, goods)
+	}
+	beego.Info(goodsSKUs)
+	self.Data["goodsSKUs"] = goodsSKUs
+	self.Data["nginxHost"] = beego.AppConfig.String("nginxHost")
 	self.Layout = "userCenterLayout.html"
 	self.TplName = "user_center_info.html"
 }
+
 /* 展示用户中心订单页*/
 func (self *UserController) ShowUserCenterOrder() {
 	GetUser(&self.Controller)
