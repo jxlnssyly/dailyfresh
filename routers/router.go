@@ -38,6 +38,9 @@ func init() {
 
 	// 商品搜索
 	beego.Router("/goodsSearch",&controllers.GoodsController{},"post:HandleGoodsSearch")
+
+	// 添加购物车
+	beego.Router("/user/addCart",&controllers.CartController{},"post:HandleAddCart")
 }
 
 var filterFunc = func(ctx *context.Context) {

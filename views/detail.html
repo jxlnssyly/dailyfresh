@@ -29,7 +29,7 @@
 			<div class="total">总价：<em>16.80元</em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+				<a href="javascript:;" class="add_cart" id="add_cart" skuid="{{.goodsSku.Id}}">加入购物车</a>
 			</div>
 		</div>
 	</div>
@@ -70,8 +70,56 @@
 
 
 
-	<script type="text/javascript" src="js/jquery-1.12.2.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript">
+		UpdateGoodsPrice()
+		function UpdateGoodsPrice() {
+			// 获取单价和数量
+			price = $('.show_pirze').children('em').text()
+			count = $('.num_show').val()
+
+			price = parseFloat(price)
+			count = parseInt(count)
+
+			total = price * count
+
+			// 把总价更新
+			$('.total').children('em').text(total.toFixed(2) + '元')
+
+        }
+
+        $('.add').click(function () {
+            count = $('.num_show').val()
+            count = parseInt(count) + 1
+            $('.num_show').val(count)
+
+			UpdateGoodsPrice()
+        })
+
+		$('.minus').click(function () {
+            count = $('.num_show').val()
+            count = parseInt(count) - 1
+
+			if (count < 1) {
+                count = 1
+			}
+
+            $('.num_show').val(count)
+
+            UpdateGoodsPrice()
+        })
+		// 手动输入商品数量
+		$('.num_show').blur(function () {
+			count = $(this).val()
+
+			if (isNaN(count) || count.trim().length == 0 || parseInt(count) < 1) {
+			    count = 1
+			}
+
+			$(this).val(parseInt(count))
+			UpdateGoodsPrice()
+        })
+		
 		var $add_x = $('#add_cart').offset().top;
 		var $add_y = $('#add_cart').offset().left;
 
@@ -80,14 +128,35 @@
 
 		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
 		$('#add_cart').click(function(){
-			$(".add_jump").stop().animate({
-				'left': $to_y+7,
-				'top': $to_x+7},
-				"fast", function() {
-					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
-					});
+		    skuid = $(this).attr('skuid')
+			count = $('.num_show').val()
+			param = {"skuid":skuid, "count":count}
 
-			});
+            $.post('/user/addCart',param,function (data) {
+				if (data.code == 5) {
+                    console.log(data);
+                    // alert(data.cartCount)
+                    $(".add_jump").stop().animate({
+                                'left': $to_y+7,
+                                'top': $to_x+7},
+                            "fast", function() {
+                                $(".add_jump").fadeOut('fast',function(){
+                                    $('#show_count').html(data.cartCount);
+                                });
+                    });
+                } else {
+                    console.log(data);
+                }
+            })
+
+			// $(".add_jump").stop().animate({
+			// 	'left': $to_y+7,
+			// 	'top': $to_x+7},
+			// 	"fast", function() {
+			// 		$(".add_jump").fadeOut('fast',function(){
+			// 			$('#show_count').html(2);
+			// 		});
+            //
+			// });
 		})
 	</script>

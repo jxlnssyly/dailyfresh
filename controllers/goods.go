@@ -87,7 +87,9 @@ func (self *GoodsController) ShowIndex() {
 		value["imageGoods"] = imageGoods
 	}
 	self.Data["goods"] = goods
-
+	self.Layout = "goodsLayout.html"
+	cartCount := GetCartCount(&self.Controller)
+	self.Data["cartCount"] = cartCount
 	self.TplName = "index.html"
 }
 
@@ -140,6 +142,10 @@ func (self *GoodsController) ShowGoodsDetail() {
 	// 添加历史浏览记录
 
 	ShowLayout(&self.Controller)
+
+	cartCount := GetCartCount(&self.Controller)
+	self.Data["cartCount"] = cartCount
+
 	self.TplName = "detail.html"
 }
 
