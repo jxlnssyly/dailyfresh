@@ -61,6 +61,57 @@ func (self *CartController) HandleAddCart() {
 
 }
 
+// 展示购物车页面
+func (self *CartController)ShowCart()  {
+
+	// 用户信息
+	userName := GetUser(&self.Controller)
+
+	// 从Redis中获取数据
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		beego.Info("Redis连接失败")
+		return
+	}
+
+	defer conn.Close()
+
+	o := orm.NewOrm()
+	var user models.User
+	user.Name = userName
+	o.Read(&user, "Name")
+
+	goodsMap, err := redis.IntMap( conn.Do("hgetall","cart_"+strconv.Itoa(user.Id))) // map[string]int
+	if err != nil {
+		beego.Info("没有购物车数据")
+		return
+	}
+	beego.Info(goodsMap)
+	totalPrice := 0
+	totalCount := 0
+	i := 0
+	goods := make([]map[string]interface{},len(goodsMap))
+	for index, value := range goodsMap {
+		skuid, _ := strconv.Atoi(index)
+		var goodsSku models.GoodsSKU
+		goodsSku.Id = skuid
+		o.Read(&goodsSku)
+		temp := make(map[string]interface{})
+		temp["goodsSku"] = goodsSku
+		temp["count"] = value
+		goods[i] = temp
+		temp["addPrice"] = goodsSku.Price * value
+		totalPrice += goodsSku.Price * value
+		totalCount += value
+		i += 1
+	}
+	self.Data["goods"] = goods
+	self.Data["totalPrice"] = totalPrice
+	self.Data["totalCount"] = totalCount
+	self.Data["nginxHost"] = beego.AppConfig.String("nginxHost")
+	self.TplName = "cart.html"
+}
+
 // 获取购物车数量的函数
 func GetCartCount(self *beego.Controller) int {
 	// 从Redis中获取购物车数量

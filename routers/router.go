@@ -41,6 +41,9 @@ func init() {
 
 	// 添加购物车
 	beego.Router("/user/addCart",&controllers.CartController{},"post:HandleAddCart")
+
+	// 展示购物车页面
+	beego.Router("/user/cart", &controllers.CartController{},"get:ShowCart")
 }
 
 var filterFunc = func(ctx *context.Context) {
