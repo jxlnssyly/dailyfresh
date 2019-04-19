@@ -2,65 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1d1c12b0-8a4f-4502-9d25-b2664a5cdfeb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/static/images/adv01.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/adv02.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner01.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner02.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner03.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner04.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner05.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner06.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/down.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/fruit.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods001.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods002.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods003.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods004.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods005.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods006.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods007.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods008.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods009.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods010.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods011.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods012.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods013.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods014.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods015.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods016.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods017.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods018.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods019.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods020.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods/goods021.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods02.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/goods_detail.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/icons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/icons02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/interval_line.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/left_bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/login_banner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/logo02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/pay_icons.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/register_banner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/shop_cart.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/slide.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/slide02.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/slide03.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/slide04.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/app.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/goods.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/goods.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dailyfresh" beforeDir="false" afterPath="$PROJECT_DIR$/dailyfresh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/goodsLayout.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/goodsLayout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/userCenterLayout.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/userCenterLayout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/user_center_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/user_center_info.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -71,23 +19,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="goods.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="goods.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/goods.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="218" column="36" selection-start-line="218" selection-start-column="36" selection-end-line="218" selection-end-column="36" />
-              <folding>
-                <element signature="e#21#114#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="584">
+              <caret line="260" column="16" selection-start-line="260" selection-start-column="16" selection-end-line="260" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="list.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="search.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/search.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="99">
+              <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/login.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="57" column="57" selection-start-line="57" selection-start-column="57" selection-end-line="57" selection-end-column="57" />
+            <state relative-caret-position="192">
+              <caret line="28" column="44" selection-end-line="71" />
             </state>
           </provider>
         </entry>
@@ -104,7 +63,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
+            <state relative-caret-position="1515">
               <caret line="101" column="61" selection-start-line="101" selection-start-column="29" selection-end-line="101" selection-end-column="61" />
             </state>
           </provider>
@@ -113,8 +72,8 @@
       <file leaf-file-name="model.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/model.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="54" column="9" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="9" />
+            <state relative-caret-position="142">
+              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
               <folding>
                 <element signature="e#16#102#0" expanded="true" />
               </folding>
@@ -125,17 +84,8 @@
       <file leaf-file-name="goodsLayout.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/goodsLayout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="59" column="54" selection-start-line="59" selection-start-column="54" selection-end-line="59" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/detail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="63" column="48" selection-start-line="63" selection-start-column="48" selection-end-line="63" selection-end-column="48" />
+            <state relative-caret-position="383">
+              <caret line="44" column="31" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -143,8 +93,8 @@
       <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="36" column="79" selection-start-line="36" selection-start-column="79" selection-end-line="36" selection-end-column="79" />
+            <state relative-caret-position="341">
+              <caret line="39" column="86" selection-start-line="39" selection-start-column="69" selection-end-line="39" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -154,18 +104,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="131">
               <caret line="187" column="22" selection-start-line="187" selection-start-column="22" selection-end-line="187" selection-end-column="22" />
-              <folding>
-                <element signature="e#21#188#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user_center_info.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/user_center_info.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -201,10 +139,11 @@
         <option value="$PROJECT_DIR$/views/user_center_info.html" />
         <option value="$PROJECT_DIR$/controllers/user.go" />
         <option value="$PROJECT_DIR$/views/index.html" />
-        <option value="$PROJECT_DIR$/views/goodsLayout.html" />
-        <option value="$PROJECT_DIR$/routers/router.go" />
-        <option value="$PROJECT_DIR$/controllers/goods.go" />
         <option value="$PROJECT_DIR$/views/list.html" />
+        <option value="$PROJECT_DIR$/routers/router.go" />
+        <option value="$PROJECT_DIR$/views/goodsLayout.html" />
+        <option value="$PROJECT_DIR$/views/search.html" />
+        <option value="$PROJECT_DIR$/controllers/goods.go" />
       </list>
     </option>
   </component>
@@ -218,8 +157,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="410" />
-    <option name="y" value="27" />
+    <option name="x" value="128" />
+    <option name="y" value="94" />
     <option name="width" value="1211" />
     <option name="height" value="806" />
   </component>
@@ -242,12 +181,12 @@
             <path>
               <item name="dailyfresh" type="b2602c69:ProjectViewProjectNode" />
               <item name="dailyfresh" type="462c0819:PsiDirectoryNode" />
-              <item name="conf" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dailyfresh" type="b2602c69:ProjectViewProjectNode" />
               <item name="dailyfresh" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="routers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dailyfresh" type="b2602c69:ProjectViewProjectNode" />
@@ -288,7 +227,7 @@
     </option>
   </component>
   <component name="ToolWindowManager">
-    <frame x="410" y="27" width="1211" height="806" extended-state="0" />
+    <frame x="128" y="94" width="1211" height="806" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25268373" />
@@ -296,19 +235,19 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.329235" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32859176" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32859176" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,9 +257,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/login.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/css/main.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -439,9 +375,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/register.html" />
     <entry file="file://$PROJECT_DIR$/static/register.html" />
-    <entry file="file://$PROJECT_DIR$/views/login.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/user_center_order.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1095">
@@ -495,64 +428,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
           <caret line="39" column="14" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
-          <folding>
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/user_center_info.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
+        <state relative-caret-position="450">
           <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/goodsLayout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="59" column="54" selection-start-line="59" selection-start-column="54" selection-end-line="59" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="945">
           <caret line="63" column="48" selection-start-line="63" selection-start-column="48" selection-end-line="63" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/router.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="36" column="79" selection-start-line="36" selection-start-column="79" selection-end-line="36" selection-end-column="79" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
+        <state relative-caret-position="1515">
           <caret line="101" column="61" selection-start-line="101" selection-start-column="29" selection-end-line="101" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="187" column="22" selection-start-line="187" selection-start-column="22" selection-end-line="187" selection-end-column="22" />
-          <folding>
-            <element signature="e#21#188#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/model.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="54" column="9" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="9" />
-          <folding>
-            <element signature="e#16#102#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -570,20 +466,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/goods.go">
+    <entry file="file://$PROJECT_DIR$/controllers/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="218" column="36" selection-start-line="218" selection-start-column="36" selection-end-line="218" selection-end-column="36" />
+        <state relative-caret-position="131">
+          <caret line="187" column="22" selection-start-line="187" selection-start-column="22" selection-end-line="187" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/model.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
           <folding>
-            <element signature="e#21#114#0" expanded="true" />
+            <element signature="e#16#102#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/login.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="39" column="86" selection-start-line="39" selection-start-column="69" selection-end-line="39" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/goodsLayout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="44" column="31" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="57" column="57" selection-start-line="57" selection-start-column="57" selection-end-line="57" selection-end-column="57" />
+        <state relative-caret-position="192">
+          <caret line="28" column="44" selection-end-line="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/search.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/goods.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="260" column="16" selection-start-line="260" selection-start-column="16" selection-end-line="260" selection-end-column="16" />
         </state>
       </provider>
     </entry>

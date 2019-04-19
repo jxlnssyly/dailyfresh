@@ -183,7 +183,7 @@ func (self *GoodsController) ShowGoodsList() {
 
 	// 分页实现
 	// 获取PageCount
-	pageSize := 1
+	pageSize := 2
 	count, _ := o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).Count()
 
 	pageCount := math.Ceil(float64(count) / float64(pageSize))
@@ -198,8 +198,7 @@ func (self *GoodsController) ShowGoodsList() {
 	//获取商品
 	var goods []models.GoodsSKU
 	start := (pageIndex - 1) * pageSize
-	o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).Limit(pageSize,start).All(&goods)
-	self.Data["goods"]= goods
+
 	self.Data["typeId"] = id
 	self.Data["pages"] = pages
 	self.Data["pageIndex"] = pageIndex
@@ -218,5 +217,49 @@ func (self *GoodsController) ShowGoodsList() {
 	}
 	self.Data["nextPage"] = nextPage
 
+	sort := self.GetString("sort")
+	if sort == "" {
+		o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).Limit(pageSize,start).All(&goods)
+		self.Data["goods"]= goods
+	} else if sort == "price" {
+		o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).OrderBy("Price").Limit(pageSize,start).All(&goods)
+		self.Data["goods"]= goods
+	} else {
+		o.QueryTable(&models.GoodsSKU{}).RelatedSel("GoodsType").Filter("GoodsType__Id",id).OrderBy("Sales").Limit(pageSize,start).All(&goods)
+		self.Data["goods"]= goods
+	}
+
+	self.Data["sort"] = sort
+
 	self.TplName = "list.html"
 }
+
+// 处理搜索
+func (self *GoodsController) HandleGoodsSearch() {
+
+	// 获取数据
+	goodsName := self.GetString("goodsName")
+
+	o := orm.NewOrm()
+	var goods []models.GoodsSKU
+
+	// 校验数据
+	if goodsName == "" {
+		o.QueryTable(&models.GoodsSKU{}).All(&goods)
+		self.Data["goods"] = goods
+		self.TplName = "search.html"
+		return
+	}
+
+	// 处理数据
+	o.QueryTable(&models.GoodsSKU{}).Filter("Name__icontains",goodsName).All(&goods)
+
+	// 返回视图
+	self.Data["goods"] = goods
+	ShowLayout(&self.Controller)
+	self.TplName = "search.html"
+
+	return
+}
+
+
