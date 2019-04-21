@@ -31,12 +31,30 @@ func ShowLayout(self *beego.Controller) {
 }
 
 func GetUser(self *beego.Controller) string {
-	userName := self.GetSession("userName")
-	if userName == nil {
+
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		beego.Info("Redis连接错误")
+		self.Data["userName"] = ""
+
+		return ""
+	}
+
+	defer conn.Close()
+
+	userName, err := redis.String(conn.Do("get","userName"))
+	if err != nil {
+		beego.Info("未登陆")
+		self.Data["userName"] = ""
+
+		return ""
+	}
+
+	if userName == "" {
 		self.Data["userName"] = ""
 	} else {
-		self.Data["userName"] = userName.(string)
-		return userName.(string)
+		self.Data["userName"] = userName
+		return userName
 
 	}
 
@@ -118,12 +136,12 @@ func (self *GoodsController) ShowGoodsDetail() {
 
 	// 添加历史浏览记录
 	// 判断用户是否登录
-	userName := self.GetSession("userName")
+	userName := GetUser(&self.Controller)
 	beego.Info(userName)
-	if userName != nil {
+	if userName != "" {
 		// 查询
 		var user models.User
-		user.Name = userName.(string)
+		user.Name = userName
 		o.Read(&user, "Name")
 		redisServer := beego.AppConfig.String("redisServer")
 		// Redis存储

@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -60,8 +59,8 @@
 		<li class="col06">
 			<div class="num_add">
 				<a href="javascript:;" class="add fl">+</a>
-				<input type="text" class="num_show fl" value="1">	
-				<a href="javascript:;" class="minus fl">-</a>	
+				<input type="text" class="num_show fl" skuid="{{.goodsSku.Id}}" value="{{.count}}">
+				<a href="javascript:;" class="minus fl">-</a>
 			</div>
 		</li>
 		<li class="col07">{{.addPrice}}元</li>
@@ -93,3 +92,69 @@
 	
 </body>
 </html>
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+<script type="text/javascript">
+
+        // 计算总价
+        function UpdateGoodsPrice() {
+            totalCount = 0
+            totalPrice = 0
+            $('.cart_list_td').find(':checked').parents('ul').each(function () {
+
+                count = $(this).find('.num_show').val()
+                price = $(this).children('.col07').text()
+                count = parseInt(count)
+                price = parseFloat(price)
+
+                totalCount += count
+                totalPrice += price
+            })
+
+            $('.settlements').children('.col03').children('em').text(totalPrice)
+            $('.settlements').children('.col03').children('b').text(totalCount)
+
+        }
+
+        // 设置全选和全不选
+        $('.settlements').find(':checkbox').change(function () {
+            is_checked = $(this).prop('checked')
+            $('.cart_list_td').find(':checkbox').each(function () {
+                $(this).prop('checked',is_checked)
+            })
+
+            UpdateGoodsPrice()
+
+        })
+
+	// 根据商品的改变改变全部状态
+	$('.cart_list_td').find(':checkbox').change(function () {
+		checkboxLength = $('.cart_list_td').find(':checkbox').length
+		checkdLength = $('.cart_list_td').find(':checked').length
+		if (checkboxLength > checkdLength) {
+            $('.settlements').find(':checkbox').prop('checked',"")
+		} else {
+            $('.settlements').find(':checkbox').prop('checked',"checked")
+        }
+        UpdateGoodsPrice()
+    })
+
+	// 添加商品数量
+	$('.add').click(function () {
+	    currentThis = $(this)
+		count = $(this).next().val()
+		count = parseInt(count) + 1
+		skuid = $(this).next().attr('skuid')
+		param = {"skuid": skuid,"count":count}
+        $.post('/user/updateCart',param,function (data) {
+			if (data.code == 5) {
+			    alert(data.msg)
+                currentThis.next().val(count)
+			}  else {
+			    alert(data.msg)
+			}
+        })
+    })
+
+
+</script>

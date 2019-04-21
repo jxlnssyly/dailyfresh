@@ -159,7 +159,8 @@ func (self *UserController) HandleLogin() {
 	} else  {
 		self.Ctx.SetCookie("userName",userName,-1)
 	}
-	self.SetSession("userName",userName)
+	// 保存登陆状态到Redis里面
+	saveName(userName)
 	self.Redirect("/",302)
 }
 
@@ -262,9 +263,9 @@ func (self *UserController) HandleUserCenterSite() {
 	}
 
 	// 关联
-	userName := self.GetSession("userName")
+	userName := GetUser(&self.Controller)
 	var user models.User
-	user.Name = userName.(string)
+	user.Name = userName
 
 	o.Read(&user,"Name") // 通过Id查找时可以省略，其他时候必须指定字段
 	var newUserAddr models.Address
@@ -283,9 +284,44 @@ func (self *UserController) HandleUserCenterSite() {
 
 /*退出登录*/
 func (self *UserController) Logout() {
-	self.DelSession("userName")
+	beego.Info("11111111")
 
+	RemoveName()
 	self.Redirect("/login",302)
+}
+
+func RemoveName()  {
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		beego.Info("连接错误")
+		return
+	}
+	beego.Info("00000")
+	defer conn.Close()
+	_, err = conn.Do("del","userName")
+
+	if err != nil {
+		beego.Info("删除登陆信息错误",err)
+		return
+	}
+}
+
+func saveName(userName string) {
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		beego.Info("Redis连接错误")
+		return
+	}
+
+	defer conn.Close()
+
+	_, err = conn.Do("set","userName",userName)
+
+	if err != nil {
+		beego.Info("Redis插入错误",err)
+		return
+	}
+
 }
 
 

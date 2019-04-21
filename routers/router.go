@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	_ "dailyfresh/models"
 	"github.com/astaxie/beego/context"
+	"github.com/gomodule/redigo/redis"
 )
 
 func init() {
@@ -20,7 +21,7 @@ func init() {
     beego.Router("/login",&controllers.UserController{},"get:ShowLogin;post:HandleLogin")
 
 	// 退出登录
-	beego.Router("/user/logout",&controllers.UserController{},"get:Logout")
+	beego.Router("/logout",&controllers.UserController{},"get:Logout")
 
 	// 用户中心
 	beego.Router("/user/userCenterInfo",&controllers.UserController{},"get:ShowUserCenterInfo")
@@ -44,11 +45,24 @@ func init() {
 
 	// 展示购物车页面
 	beego.Router("/user/cart", &controllers.CartController{},"get:ShowCart")
+
+	// 添加购物车数量
+	beego.Router("/user/updateCart", &controllers.CartController{},"post:HandleUpdateCart")
+
 }
 
 var filterFunc = func(ctx *context.Context) {
-	userName := ctx.Input.Session("userName")
-	if userName == nil {
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		beego.Info("Redis连接错误")
+		ctx.Redirect(302,"/login")
+		return
+	}
+
+	defer conn.Close()
+
+	userName, err := redis.String(conn.Do("get","userName"))
+	if userName == "" {
 		ctx.Redirect(302,"/login")
 		return
 	}

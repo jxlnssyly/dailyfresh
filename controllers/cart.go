@@ -29,8 +29,8 @@ func (self *CartController) HandleAddCart() {
 	}
 
 	// 处理数据
-	userName := self.GetSession("userName")
-	if userName == nil {
+	userName := GetUser(&self.Controller)
+	if userName == "" {
 		resp["code"] = 2
 		resp["msg"] = "当前用户未登录"
 		self.Data["json"] = resp
@@ -39,7 +39,7 @@ func (self *CartController) HandleAddCart() {
 
 	o := orm.NewOrm()
 	var user models.User
-	user.Name = userName.(string)
+	user.Name = userName
 	o.Read(&user,"Name")
 
 	conn,err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
@@ -115,14 +115,14 @@ func (self *CartController)ShowCart()  {
 // 获取购物车数量的函数
 func GetCartCount(self *beego.Controller) int {
 	// 从Redis中获取购物车数量
-	userName := self.GetSession("userName")
-	if userName == nil {
+	userName := GetUser(self)
+	if userName == "" {
 		return 0
 	}
 
 	o := orm.NewOrm()
 	var user models.User
-	user.Name = userName.(string)
+	user.Name = userName
 	o.Read(&user,"Name")
 
 	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
@@ -135,4 +135,55 @@ func GetCartCount(self *beego.Controller) int {
 	cartCount, _ := redis.Int(rep,err)
 	// cart_userId
 	return cartCount
+}
+
+// 更新购物车数据
+func (self *CartController)HandleUpdateCart()  {
+	// 获取数据
+	skuid, err := self.GetInt("skuid")
+	count, err2 := self.GetInt("count")
+
+	resp := make(map[string]interface{})
+	defer self.ServeJSON()
+
+	// 校验数据
+	if err != nil || err2 != nil {
+		beego.Info(err)
+		beego.Info(err2)
+
+		resp["code"] = 1
+		resp["msg"] = "请求数据不正确"
+		self.Data["json"] = resp
+		return
+	}
+
+	userName := GetUser(&self.Controller)
+
+	if userName == "" {
+		 resp["code"] = 3
+		resp["msg"] = "当前用户未登录"
+		self.Data["json"] = resp
+		return
+	}
+
+	o := orm.NewOrm()
+	var user models.User
+	user.Name = userName
+	o.Read(&user,"Name")
+
+	// 处理数据
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		resp["code"] = 2
+		resp["msg"] = "redis数据库连接失败"
+		self.Data["json"] = resp
+		return
+	}
+	defer conn.Close()
+
+	conn.Do("hset","cart_"+strconv.Itoa(user.Id),skuid,count)
+	resp["code"] = 5
+	resp["msg"] = "ok"
+
+	self.Data["json"] = resp
 }
