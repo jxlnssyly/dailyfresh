@@ -187,3 +187,42 @@ func (self *CartController)HandleUpdateCart()  {
 
 	self.Data["json"] = resp
 }
+
+func (self *CartController)DeleteCart()  {
+
+	beego.Info("---")
+	// 获取数据
+	skuid, err := self.GetInt("skuid")
+
+	defer self.ServeJSON()
+
+	resp := make(map[string]interface{})
+	if err != nil {
+		resp["code"] = 1
+		resp["errmsg"] = "请求数据不正确"
+		self.Data["json"] = resp
+		return
+	}
+
+	conn, err := redis.Dial("tcp",beego.AppConfig.String("redisServer"))
+	if err != nil {
+		resp["code"] = 2
+		resp["errmsg"] = "Redis数据库连接失败"
+		self.Data["json"] = resp
+		return
+	}
+	userName := GetUser(&self.Controller)
+	user := models.User{}
+	user.Name = userName
+	o := orm.NewOrm()
+	o.Read(&user, "Name")
+
+	_, err = conn.Do("hdel","cart_"+strconv.Itoa(user.Id),skuid)
+	if err != nil {
+		beego.Info(err)
+	}
+
+	resp["code"] = 5
+	resp["errmsg"] = "ok"
+	self.Data["json"] = resp
+}

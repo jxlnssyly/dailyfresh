@@ -49,6 +49,8 @@ func init() {
 	// 添加购物车数量
 	beego.Router("/user/updateCart", &controllers.CartController{},"post:HandleUpdateCart")
 
+	// 删除购物车数据
+	beego.Router("/user/deleteCart",&controllers.CartController{},"post:DeleteCart")
 }
 
 var filterFunc = func(ctx *context.Context) {
