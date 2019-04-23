@@ -86,7 +86,6 @@ func (self *CartController)ShowCart()  {
 		beego.Info("没有购物车数据")
 		return
 	}
-	beego.Info(goodsMap)
 	totalPrice := 0
 	totalCount := 0
 	i := 0
@@ -190,7 +189,6 @@ func (self *CartController)HandleUpdateCart()  {
 
 func (self *CartController)DeleteCart()  {
 
-	beego.Info("---")
 	// 获取数据
 	skuid, err := self.GetInt("skuid")
 

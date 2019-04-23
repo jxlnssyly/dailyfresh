@@ -214,7 +214,29 @@ func (self *UserController) ShowUserCenterInfo() {
 
 /* 展示用户中心订单页*/
 func (self *UserController) ShowUserCenterOrder() {
-	GetUser(&self.Controller)
+	userName := GetUser(&self.Controller)
+	var user models.User
+	user.Name = userName
+	// 获取订单表的数据
+	o := orm.NewOrm()
+	o.Read(&user,"Name")
+
+	var orderInfos []models.OrderInfo
+	o.QueryTable(&models.OrderInfo{}).Filter("User__Id",user.Id).All(&orderInfos)
+	beego.Error(orderInfos)
+
+	goodsBuffer := make([]map[string]interface{},len(orderInfos))
+	for index, orderInfo := range orderInfos {
+		var orderGoods []models.OrderGoods
+		o.QueryTable(&models.OrderGoods{}).RelatedSel("OrderInfo","GoodsSKU").Filter("OrderInfo__Id",orderInfo.Id).All(&orderGoods)
+		temp := make(map[string]interface{})
+		temp["orderInfo"] = orderInfo
+		temp["orderGoods"] = orderGoods
+		goodsBuffer[index] = temp
+	}
+	beego.Error(goodsBuffer)
+	self.Data["goodsBuffer"] = goodsBuffer
+	self.Data["nginxHost"] = beego.AppConfig.String("nginxHost")
 	self.Layout = "userCenterLayout.html"
 	self.TplName = "user_center_order.html"
 }
